@@ -22,7 +22,7 @@ class Bob {
 	 */
 	public static function need($name) {
 		
-		
+		$className = self::_getObjectName($name);
 		
 	}
 	
@@ -34,15 +34,11 @@ class Bob {
 	 */
 	public static function create($name) {
 		
-		$className = str_replace(' ','_',ucwords(str_replace('_',' ',$name)));
-		if(!empty(self::$config['namespace'])) {
-			$className = self::$config['namespace'].'_'.$className;
-		}
+		$className = self::_getObjectName($name);
 		
 		if(class_exists($className)) {
 			
 			$args = func_get_args();
-			
 			switch (sizeof($args)) {
 				case 2:
 					return new $className($args[1]);
@@ -71,6 +67,16 @@ class Bob {
 		
 		
 		
+	}
+	
+	
+	
+	protected function _getObjectName($name, $withNamespace = true) {
+		$className = str_replace(' ','_',ucwords(str_replace('_',' ',$name)));
+		if($withNamespace && !empty(self::$config['namespace'])) {
+			$className = self::$config['namespace'].'_'.$className;
+		}
+		return $className;
 	}
 	
 	

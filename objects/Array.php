@@ -13,11 +13,12 @@ class Bob_Array {
 	public function getItems($namespace, $primaryKey) {
 		
 		$items = array();
-		$inItems = self::getItemsByNamespace($this->_array,$namespace);
+		$inItems = $this->getByNamespace($namespace);
 		if(isset($inItems[$primaryKey])) {
 			for($i = 0; $i < sizeof($inItems[$primaryKey]); $i++) {
 				if(!empty($inItems[$primaryKey][$i])) {
-					$items[] = self::getItemsByIndex($inItems,$i);
+					$arr = new self($inItems);
+					$items[] = $arr->getByIndex($i);
 				}
 			}
 			unset($inItems);
