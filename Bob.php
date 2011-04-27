@@ -35,21 +35,25 @@ class Bob {
 	public static function create($name) {
 		
 		$className = str_replace(' ','_',ucwords(str_replace('_',' ',$name)));
-		if(!empty(self::$config['namespace'])) $className = self::$config['namespace'].'_'.$className;
+		if(!empty(self::$config['namespace'])) {
+			$className = self::$config['namespace'].'_'.$className;
+		}
 		
 		if(class_exists($className)) {
 			
-			switch (func_num_args()) {
+			$args = func_get_args();
+			
+			switch (sizeof($args)) {
 				case 2:
-					return new $className(func_get_arg(1));
+					return new $className($args[1]);
 				case 3:
-					return new $className(func_get_arg(1), func_get_arg(2));
+					return new $className($args[1], $args[2]);
 				case 4:
-					return new $className(func_get_arg(1), func_get_arg(2), func_get_arg(3));
+					return new $className($args[1], $args[2], $args[3]);
 				case 5:
-					return new $className(func_get_arg(1), func_get_arg(2), func_get_arg(3), func_get_arg(4));
+					return new $className($args[1], $args[2], $args[3], $args[4]);
 				case 6:
-					return new $className(func_get_arg(1), func_get_arg(2), func_get_arg(3), func_get_arg(4), func_get_arg(5));
+					return new $className($args[1], $args[2], $args[3], $args[4], $args[5]);
 				default:
 					return new $className();
 			}
