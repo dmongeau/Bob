@@ -89,7 +89,7 @@ class Bob {
 	
 	
 	
-	protected function _getFunctionName($name, $withNamespace = true) {
+	protected static function _getFunctionName($name, $withNamespace = true) {
 		if($withNamespace && !empty(self::$config['namespace'])) {
 			$name = self::$config['namespace'].'_'.str_replace('.','_',$name);
 		}
@@ -98,7 +98,7 @@ class Bob {
 	
 	
 	
-	protected function _getObjectName($name, $withNamespace = true) {
+	protected static function _getObjectName($name, $withNamespace = true) {
 		$name = str_replace(' ','_',ucwords(str_replace('_',' ',$name)));
 		if($withNamespace && !empty(self::$config['namespace'])) {
 			$name = self::$config['namespace'].'_'.$name;
