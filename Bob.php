@@ -91,7 +91,7 @@ class Bob {
 	
 	protected function _getFunctionName($name, $withNamespace = true) {
 		if($withNamespace && !empty(self::$config['namespace'])) {
-			$name = self::$config['namespace'].'_'.$name;
+			$name = self::$config['namespace'].'_'.str_replace('.','_',$name);
 		}
 		return strtolower($name);
 	}
