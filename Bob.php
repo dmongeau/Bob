@@ -73,7 +73,7 @@ class Bob {
 	}
 	
 	
-	public static function run($name,$args) {
+	public static function run($name,$args = array()) {
 		
 		$functionName = self::_getFunctionName($name);
 		
