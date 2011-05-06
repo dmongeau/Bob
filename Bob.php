@@ -81,7 +81,7 @@ class Bob {
 		
 		if(function_exists($functionName)) {
 			
-			call_user_func_array($functionName, $args);
+			return call_user_func_array($functionName, $args);
 			
 		}
 		
