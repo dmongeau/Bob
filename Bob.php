@@ -62,10 +62,13 @@ class Bob {
 	}
 	
 	
-	public static function run($name,$args) {
+	public static function run($name,$args = array()) {
 		
+		$functionName = self::_getFunctionName($name);
 		
-		
+		if(function_exists($functionName)) {
+			call_user_func_array($functionName,$args);
+		}
 		
 	}
 	
