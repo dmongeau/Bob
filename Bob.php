@@ -1,5 +1,14 @@
 <?php
-
+/*
+ *
+ * Bob the builder
+ *
+ * Bob is a static class to organize libraries of functions and classes
+ *
+ * @author David Mongeau-Petitpas <dmp@commun.ca>
+ * @version 0.1
+ *
+ */
 
 define('PATH_BOB',dirname(__FILE__));
 
@@ -36,6 +45,8 @@ class Bob {
 		
 		$className = self::_getObjectName($name);
 		
+		self::need($className);
+		
 		if(class_exists($className)) {
 			
 			$args = func_get_args();
@@ -62,24 +73,37 @@ class Bob {
 	}
 	
 	
-	public static function run($name,$args = array()) {
+	public static function run($name,$args) {
 		
 		$functionName = self::_getFunctionName($name);
 		
+		self::need($functionName);
+		
 		if(function_exists($functionName)) {
-			call_user_func_array($functionName,$args);
+			
+			call_user_func_array($functionName, $args);
+			
 		}
 		
 	}
 	
 	
 	
-	protected function _getObjectName($name, $withNamespace = true) {
-		$className = str_replace(' ','_',ucwords(str_replace('_',' ',$name)));
+	protected function _getFunctionName($name, $withNamespace = true) {
 		if($withNamespace && !empty(self::$config['namespace'])) {
-			$className = self::$config['namespace'].'_'.$className;
+			$name = self::$config['namespace'].'_'.$name;
 		}
-		return $className;
+		return strtolower($name);
+	}
+	
+	
+	
+	protected function _getObjectName($name, $withNamespace = true) {
+		$name = str_replace(' ','_',ucwords(str_replace('_',' ',$name)));
+		if($withNamespace && !empty(self::$config['namespace'])) {
+			$name = self::$config['namespace'].'_'.$name;
+		}
+		return $name;
 	}
 	
 	
