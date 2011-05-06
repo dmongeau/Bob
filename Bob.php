@@ -15,6 +15,7 @@ define('PATH_BOB',dirname(__FILE__));
 
 require PATH_BOB.'/objects/Array.php';
 require PATH_BOB.'/functions/functions.php';
+require PATH_BOB.'/functions/network.php';
 
 
 class Bob {
