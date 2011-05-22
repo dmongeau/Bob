@@ -15,6 +15,7 @@ define('PATH_BOB',dirname(__FILE__));
 
 require PATH_BOB.'/objects/Array.php';
 require PATH_BOB.'/objects/Date.php';
+require PATH_BOB.'/objects/String.php';
 require PATH_BOB.'/functions/functions.php';
 require PATH_BOB.'/functions/network.php';
 
@@ -106,6 +107,20 @@ class Bob {
 			$name = self::$config['namespace'].'_'.$name;
 		}
 		return $name;
+	}
+	
+	
+	public static function x($name) {
+		$functionName = self::_getFunctionName($name);
+		
+		self::need($functionName);
+		
+		if(function_exists($functionName))  {
+			$args = func_get_args();
+			$args = sizeof($args) > 1 ? array_slice($args,1):array();
+			return call_user_func_array($functionName, $args);
+		}
+		
 	}
 	
 	

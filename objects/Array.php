@@ -10,6 +10,10 @@ class Bob_Array {
 		$this->_array = $array;	
 	}
 	
+	public function getKey($key,$empty = null) {
+		return isset($this->_array[$key]) && $this->_array[$key] != '' ? $this->_array[$key]:$empty;
+	}
+	
 	public function getItems($namespace, $primaryKey) {
 		
 		$items = array();
