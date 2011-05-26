@@ -6,8 +6,8 @@ class Bob_String {
 	
 	protected $_string = array();
 	
-	public function __construct(array $array) {
-		$this->_string = $array;	
+	public function __construct($string) {
+		$this->_string = $string;	
 	}
 	
 	public function toASCII() {

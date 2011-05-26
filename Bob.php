@@ -11,20 +11,30 @@
  */
 
 define('PATH_BOB',dirname(__FILE__));
+define('PATH_BOB_FUNCTIONS',dirname(__FILE__).'/functions');
+define('PATH_BOB_OBJECTS',dirname(__FILE__).'/objects');
 
 
-require PATH_BOB.'/objects/Array.php';
-require PATH_BOB.'/objects/Date.php';
-require PATH_BOB.'/objects/String.php';
-require PATH_BOB.'/functions/functions.php';
-require PATH_BOB.'/functions/network.php';
+//require PATH_BOB.'/objects/Array.php';
+//require PATH_BOB.'/objects/Date.php';
+//require PATH_BOB.'/objects/String.php';
+//require PATH_BOB.'/functions/functions.php';
+//require PATH_BOB.'/functions/network.php';
 
 
 class Bob {
 	
 	public static $config = array(
-		'namespace' => 'Bob'
+		'namespace' => 'Bob',
+		'path' => array(
+			'functions' => array(PATH_BOB_FUNCTIONS),
+			'objects' => array(PATH_BOB_OBJECTS)
+		)
 	);
+	
+	public static $data = array();
+	
+	protected static $_loaded = array();
 	
 	/*
 	 *
@@ -34,7 +44,36 @@ class Bob {
 	 */
 	public static function need($name) {
 		
-		$className = self::_getObjectName($name);
+		if(in_array($name,self::$_loaded)) return;
+		
+		if(substr($name,0,4) == 'bob_' && !function_exists($name)) {
+			
+			$parts = explode('_',$name);
+			
+			if(sizeof($parts) == 2) $filename = 'functions.php';
+			else if(sizeof($parts) > 2) $filename = $parts[1].'.php';
+			
+			foreach(self::$config['path']['functions'] as $path) {
+				$path = rtrim($path,'/').'/'.$filename;
+				if(file_exists($path)) {
+					require $path;
+					self::$_loaded[] = $name;
+				}
+			}
+			
+		} else if(substr($name,0,4) == 'Bob_' && !class_exists($name)) {
+			
+			$filename = str_replace('Bob_','',$name).'.php';
+			
+			foreach(self::$config['path']['objects'] as $path) {
+				$path = rtrim($path,'/').'/'.$filename;
+				if(file_exists($path)) {
+					require $path;
+					self::$_loaded[] = $name;
+				}
+			}
+			
+		}
 		
 	}
 	

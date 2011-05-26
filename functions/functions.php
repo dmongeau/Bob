@@ -1,6 +1,20 @@
 <?php
 
 
+function bob_cycle($items) {
+	
+	$key = md5(print_r($items,true));
+	
+	if(!isset(Bob::$data['cycle'][$key])) Bob::$data['cycle'][$key] = 0;
+	
+	$item = $items[Bob::$data['cycle'][$key]];
+	
+	Bob::$data['cycle'][$key]++;
+	if(Bob::$data['cycle'][$key] == sizeof($items)) Bob::$data['cycle'][$key] = 0;
+	
+	return $item;
+	
+}
 
 function bob_uuid() {
 	
