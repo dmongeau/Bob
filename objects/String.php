@@ -28,6 +28,8 @@ class Bob_String {
 		
 		$str = strtolower($this->toASCII());
 		if(!$keepSlash) $str = preg_replace("/[\/_|+ -]+/", $delimiter, $str);
+		$str = preg_replace("/[^a-zA-Z0-9-]/", '-', $str);
+		$str = preg_replace("/[-]+/", '-', $str);
 		return $str;
 	}
 	
