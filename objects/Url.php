@@ -32,6 +32,23 @@ class Bob_Url {
 		
 	}
 	
+	public function bitly($login = null, $apiKey = null) {
+		
+		if(!isset($login)) $login = Gregory::get()->getConfig('bitly.login');
+		if(!isset($apiKey)) $apiKey = Gregory::get()->getConfig('bitly.apikey');
+		
+		$url = 'http://api.bit.ly/v3/shorten?login='.$login.'&apiKey='.$apiKey.'&longUrl='.rawurlencode($this->_url).'&format=xml';
+		
+		$xml = simplexml_load_file($url);
+		
+		if((int)$xml->status_code == 200) {
+			return (string)$xml->data->url;
+		} else {
+			throw new Exception('Il s\'est produit une erreur avec Bitly',(int)$xml->status_code);
+		}
+		
+	}
+	
 	
 	public function getParam($name) {
 		
